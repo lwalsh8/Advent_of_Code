@@ -4,12 +4,12 @@ from typing import Tuple
 import time
 
 
-test = ["2x3x4"]
+test = ["1x2x1","1x1x2"]
 
 
 def load_input(fname):
     with open(fname, "r") as f:
-        file = f.read()
+        file = f.read().strip()
         return file
 
 
@@ -97,7 +97,7 @@ def part_b(dimension_list):
 def main(fname):
     file = load_input(fname)
     dimension_list = prepare_file(file)
-    # dimension_list = test
+    #dimension_list = test
 
     start = time.time()
     print(f"The Answer to Part A is: {tc.green(part_a(dimension_list))}")
