@@ -3,21 +3,19 @@ start_time = datetime.datetime.now()
 
 import sys
 import termcolor_util as tc
-from typing import Tuple
-
-
-test = ["^", "v", "v", "v", "v", ">", "^"]
-
-# Start in the centre
-first_N_S = 0
-first_E_W = 0
-coordinates = [(0, 0)]
 
 
 def load_input(fname):
     with open(fname, "r") as f:
         file = f.read().strip()
-        return file
+        instruction_list = [s for s in file]
+        return instruction_list
+    
+    
+def create_seperate_lists(instruction_list):
+    santas_list = instruction_list[::2]
+    robos_list = instruction_list[1::2]
+    return(santas_list, robos_list)
 
 
 def add_new_direction(direction, last_N_S, last_E_W):
@@ -36,29 +34,45 @@ def add_new_direction(direction, last_N_S, last_E_W):
 
     elif direction == "<":
         new_E_W = last_E_W - 1
-
-    last_N_S = new_N_S
-    last_E_W = new_E_W
-
-    return last_N_S, last_E_W
+        
+    return new_N_S, new_E_W
 
 
-def part_a(direction_map, coordinates, new_N_S, new_E_W):
-    for direction in direction_map:
+def map_directions_to_coordinate_list(instruction_list):
+    new_N_S = 0
+    new_E_W = 0
+    coordinates = [(0, 0)]
+    for direction in instruction_list:
         new_N_S, new_E_W = add_new_direction(direction, new_N_S, new_E_W)
         coordinates.append((new_N_S, new_E_W))
-    return len(list(set(coordinates)))
+    return coordinates
+    
+
+
+def part_a(instruction_list):
+    coordinates = map_directions_to_coordinate_list(instruction_list)
+    return len(set(coordinates))
+
+
+
+def part_b(instruction_list):
+    santas_list, robos_list = create_seperate_lists(instruction_list)
+    santas_houses = map_directions_to_coordinate_list(santas_list)
+    robos_houses = map_directions_to_coordinate_list(robos_list)
+    return len(set(santas_houses + robos_houses))
+
 
 
 def main(fname):
     direction_map = load_input(fname)
-    #direction_map = test
 
-    print(
-        "The Answer to Part A is: {}".format(
-            tc.green(part_a(direction_map, coordinates, first_N_S, first_E_W))
-        )
-    )
+    print("The Answer to Part A is: {}".format(tc.green(part_a(direction_map))))
+    
+    processing_time = (datetime.datetime.now() - start_time).total_seconds() * 1000
+    print("Time taken to get answer: {:.3f} ms".format(processing_time))
+    
+    print("The Answer to Part B is: {}".format(tc.green(part_b(direction_map))))
+    
     processing_time = (datetime.datetime.now() - start_time).total_seconds() * 1000
     print("Time taken to get answer: {:.3f} ms".format(processing_time))
 
