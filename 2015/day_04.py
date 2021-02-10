@@ -8,8 +8,8 @@ import hashlib
 def cycle_through_numbers(puzzle_input, starting_i, num_zeroes):
     i =starting_i
     while True:
-        input = puzzle_input+str(i)
-        md5 = hashlib.md5(input).hexdigest()
+        new_input = puzzle_input+str(i)
+        md5 = hashlib.md5(new_input).hexdigest()
         zeroes = len(md5) - len(md5.lstrip('0'))
         if zeroes == num_zeroes:
             break
@@ -34,6 +34,6 @@ def main(puzzle_input):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("USAGE: python [script.py] [input.txt]")
+        print("USAGE: python [script.py] [input]")
     else:
         main(sys.argv[1])
