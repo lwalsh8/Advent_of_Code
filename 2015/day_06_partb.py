@@ -21,20 +21,15 @@ def load_input(fname):
             
             
 def apply_change(instr, lights_state):
-    x0, x1, x2, x3, x4 = instr
-    LMatrix = lights_state[x1:(x3+1),x2:(x4 +1)]
-    
-    if x0 == 0:
-        LMatrix = LMatrix -1
+    if instr[0] == 0:
+        lights_state[instr[1]:(instr[3]+1),instr[2]:(instr[4] +1)] = lights_state[instr[1]:(instr[3]+1),instr[2]:(instr[4] +1)] -1
         lights_state[lights_state<0] = 0
         
-    if x0 == 1:
-        LMatrix = LMatrix + 1
-
-    if x0 == 2:
-        LMatrix = LMatrix + 2
-    
-    lights_state[x1:(x3+1),x2:(x4 +1)] = LMatrix
+    if instr[0] == 1:
+        lights_state[instr[1]:(instr[3]+1),instr[2]:(instr[4] +1)] = lights_state[instr[1]:(instr[3]+1),instr[2]:(instr[4] +1)] +1
+        
+    if instr[0] == 2:
+        lights_state[instr[1]:(instr[3]+1),instr[2]:(instr[4] +1)] = lights_state[instr[1]:(instr[3]+1),instr[2]:(instr[4] +1)] +2
     return lights_state
         
 
@@ -47,9 +42,8 @@ def change_lights(lights_state, instructions):
     
 
 def main(fname):
-    start_lights_state = np.zeros([1000,1000], dtype = int)
+    start_lights_state = np.zeros([1000,1000])
     instructions = load_input(fname)
-    
 
     final_state = change_lights(start_lights_state, instructions)
     print('Total brightness of lights turned on: {}'.format(np.sum(final_state)))
