@@ -30,6 +30,9 @@ def main(puzzle_input, part_num):
     
 
 if __name__ == "__main__":
+    if len(sys.argv) ==1:
+        print("USAGE: python [script.py] [puzzle_input] [part_num]")
+        print("Running with defaults: string=1113222113 for 40 iterations")
     if len(sys.argv) > 1:
         puzzle_input = sys.argv[1]
     else:
