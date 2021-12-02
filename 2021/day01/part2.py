@@ -15,12 +15,10 @@ def window_avgs(depths, w_size):
 
 def var_window(window_avg_depths):
     prev_dep = 0
-    inc_depth = []
+    inc_depth = 0
     for dep in window_avg_depths:
         if dep > prev_dep:
-            inc_depth.append(1)
-        else:
-            inc_depth.append(0)
+            inc_depth += 1
         prev_dep = dep
     return inc_depth
 
@@ -30,7 +28,7 @@ def main():
     depths = read_input('input.txt')
     window_avg_depths = window_avgs(depths, w_size)
     inc_depth = var_window(window_avg_depths)
-    print(f'Number of increasing depths (not including first step): {np.sum(inc_depth) - 1}')
+    print(f'Number of increasing depths (not including first step): {inc_depth - 1}')
 
 
 if __name__ == "__main__":
